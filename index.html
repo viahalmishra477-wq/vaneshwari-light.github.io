@@ -1,599 +1,787 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vaneshwari Light | Official Premium Store</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { 
-            --primary: #ff8c42; 
-            --primary-hover: #e6762d;
-            --bg-dark: #0f0f0f;
-            --header-bg: #1a0d05; 
-            --card-bg: #1a1a1a; 
-            --text-main: #ffffff;
-            --text-muted: #aaaaaa;
-            --success: #25d366; 
-        }
-        
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        }
-        
-        body { 
-            background-color: var(--bg-dark); 
-            color: var(--text-main); 
-            line-height: 1.6; 
-            scroll-behavior: smooth; 
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaneshwari Light Store</title>
 
-        /* Header Styling */
-        header { 
-            background: var(--header-bg); 
-            padding: 15px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.7); 
-        }
-        
-        .logo-box { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-        }
-        
-        .logo-box img { 
-            width: 55px; 
-            height: 55px; 
-            border-radius: 50%; 
-            border: 2px solid var(--primary); 
-            object-fit: cover; 
-            background: #fff; 
-        }
-        
-        .brand-name { 
-            font-size: 24px; 
-            font-weight: 800; 
-            color: #fff; 
-            letter-spacing: 1.5px; 
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        /* Cart Icon */
-        .cart-icon { 
-            position: relative; 
-            font-size: 26px; 
-            cursor: pointer; 
-            color: var(--primary); 
-            transition: transform 0.2s;
-        }
-        
-        .cart-icon:hover {
-            transform: scale(1.1);
-        }
-        
-        .cart-badge { 
-            position: absolute; 
-            top: -6px; 
-            right: -10px; 
-            background: white; 
-            color: black; 
-            font-size: 11px; 
-            font-weight: 700; 
-            border-radius: 50%; 
-            padding: 2px 7px; 
-            border: 1px solid var(--primary); 
-        }
+<style>
+:root{
+--primary:#f39c12; /* Golden/Orange */
+--primary-hover:#e67e22;
+--dark:#0b0a07; /* Super Dark Premium Background */
+--card:#ffffff; /* Light Card White Background */
+--white:#ffffff;
+}
 
-        /* Navigation Bar Menu */
-        nav { 
-            background: #1e293b; 
-            padding: 14px 0; 
-            display: flex; 
-            justify-content: center; 
-            gap: 40px; 
-            position: sticky; 
-            top: 85px; 
-            z-index: 999; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        
-        nav a { 
-            color: var(--text-main); 
-            text-decoration: none; 
-            font-size: 16px; 
-            font-weight: 600; 
-            letter-spacing: 0.5px;
-            transition: color 0.3s; 
-        }
-        
-        nav a:hover { 
-            color: var(--primary); 
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-        /* Hero Banner Section */
-        .hero { 
-            height: 320px; 
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=1200'); 
-            background-size: cover; 
-            background-position: center; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            border-bottom: 4px solid var(--primary); 
-            padding: 0 20px;
-        }
-        
-        .hero h1 { 
-            font-size: 38px; 
-            color: var(--primary); 
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.9); 
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-        
-        .hero p {
-            font-size: 18px;
-            color: var(--text-muted);
-            max-width: 600px;
-        }
+body{
+background:var(--dark);
+color:white;
+}
 
-        /* Products Grid */
-        .container { 
-            padding: 60px 5%; 
-            max-width: 1300px; 
-            margin: auto; 
-        }
-        
-        .section-title { 
-            text-align: center; 
-            margin-bottom: 50px; 
-            font-size: 32px; 
-            color: var(--primary); 
-            border-bottom: 2px solid #2d2d2d; 
-            padding-bottom: 15px; 
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        .products-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-        }
-        
-        .card { 
-            background: var(--card-bg); 
-            border-radius: 18px; 
-            overflow: hidden; 
-            text-align: center; 
-            padding-bottom: 25px; 
-            border: 1px solid #2d2d2d; 
-            transition: transform 0.3s, border-color 0.3s; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        
-        .card:hover { 
-            border-color: var(--primary); 
-            transform: translateY(-10px); 
-        }
-        
-        .card img { 
-            width: 100%; 
-            height: 280px; 
-            object-fit: cover; 
-            background: #252525; 
-        }
-        
-        .card h3 {
-            font-size: 20px;
-            margin-top: 20px;
-            padding: 0 15px;
-        }
-        
-        .price { 
-            font-size: 26px; 
-            color: #ffb36b; 
-            font-weight: 700; 
-            margin: 12px 0 20px 0; 
-        }
-        
-        .btn { 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 14px 0; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            font-weight: 700; 
-            width: 85%; 
-            margin: auto; 
-            display: block; 
-            font-size: 16px; 
-            letter-spacing: 0.5px;
-            transition: background 0.3s, transform 0.1s; 
-        }
-        
-        .btn:hover { 
-            background: var(--primary-hover); 
-        }
+/* HEADER WITH RAINBOW DP BORDER */
+header{
+background:#1c140a; 
+padding:15px 5%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 5px 15px rgba(0,0,0,0.6);
+}
 
-        /* Contact Section */
-        .contact-section { 
-            background: #141414; 
-            padding: 60px 5%; 
-            text-align: center; 
-            border-top: 2px solid #2d2d2d; 
-        }
-        
-        .contact-card { 
-            background: #1e1e1e; 
-            max-width: 500px; 
-            margin: 30px auto; 
-            padding: 30px; 
-            border-radius: 18px; 
-            border: 1px solid #2d2d2d; 
-            text-align: left; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
-        
-        .contact-card p { 
-            margin: 18px 0; 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            font-size: 16px;
-        }
-        
-        .contact-card i { 
-            color: var(--primary); 
-            font-size: 20px; 
-            width: 25px;
-            text-align: center;
-        }
+.logo-box{
+display:flex;
+align-items:center;
+gap:12px;
+}
 
-        /* Modals Overlays */
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.85); 
-            z-index: 2000; 
-            overflow-y: auto; 
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content { 
-            background: #1a1a1a; 
-            width: 92%; 
-            max-width: 460px; 
-            margin: 60px auto; 
-            padding: 35px; 
-            border-radius: 20px; 
-            border: 1px solid var(--primary); 
-            position: relative; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        }
-        
-        .close-btn { 
-            position: absolute; 
-            top: 15px; 
-            right: 20px; 
-            font-size: 28px; 
-            cursor: pointer; 
-            color: var(--text-muted); 
-        }
-        
-        .step { 
-            display: none; 
-        }
-        
-        .step.active { 
-            display: block; 
-        }
-        
-        input, textarea, select { 
-            width: 100%; 
-            padding: 14px; 
-            margin: 14px 0; 
-            border-radius: 10px; 
-            border: 1px solid #3d3d3d; 
-            background: #262626; 
-            color: white; 
-            outline: none; 
-            font-size: 15px;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--primary);
-        }
+.logo-box img{
+width:55px;
+height:55px;
+border-radius:50%;
+border: 3px solid transparent;
+background-image: linear-gradient(#1c140a, #1c140a), linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+background-origin: border-box;
+background-clip: content-box, border-box;
+object-fit:cover;
+}
 
-        /* Cart Interactive Items */
-        .cart-item { 
-            display: flex; 
-            align-items: center; 
-            gap: 20px; 
-            padding: 20px 0; 
-            border-bottom: 1px solid #2d2d2d; 
-        }
-        
-        .cart-item img { 
-            width: 70px; 
-            height: 70px; 
-            border-radius: 12px; 
-            object-fit: cover; 
-        }
-        
-        .cart-item-details {
-            flex-grow: 1;
-        }
-        
-        .cancel-order { 
-            background: #dc2626; 
-            color: white; 
-            border: none; 
-            padding: 6px 14px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-size: 13px; 
-            margin-top: 8px; 
-            font-weight: 600;
-        }
+.logo-box h2{
+font-size:24px;
+color:var(--primary); 
+}
 
-        /* UPI Payment QR Section Layout */
-        .qr-section { 
-            text-align: center; 
-            margin-top: 25px; 
-            padding: 20px; 
-            background: white; 
-            border-radius: 15px; 
-            display: none; 
-        }
-        
-        .qr-section img { 
-            width: 200px; 
-            height: 200px; 
-        }
-        
-        .qr-section p {
-            color: #111;
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-size: 15px;
-        }
-        
-        footer { 
-            background: #090909; 
-            text-align: center; 
-            padding: 25px; 
-            font-size: 14px; 
-            color: #555; 
-            border-top: 1px solid #1a1a1a;
-        }
-    </style>
+.cart-icon{
+position:relative;
+font-size:28px;
+color:var(--primary);
+cursor:pointer;
+transition: transform 0.2s;
+}
+
+.cart-icon:hover {
+transform: scale(1.1);
+}
+
+.cart-count{
+position:absolute;
+top:-8px;
+right:-10px;
+background:white;
+color:black;
+font-size:12px;
+padding:2px 7px;
+border-radius:50%;
+font-weight:bold;
+}
+
+/* NAVBAR */
+nav{
+background:#221a0f; 
+padding:14px;
+display:flex;
+justify-content:center;
+gap:40px;
+position:sticky;
+top:85px;
+z-index:999;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+transition:0.3s;
+}
+
+nav a:hover{
+color:var(--primary);
+}
+
+/* SEARCH BAR SECTION */
+.search-container {
+background: #221a0f;
+padding: 0 15px 15px 15px;
+display: flex;
+justify-content: center;
+position: sticky;
+top: 133px;
+z-index: 998;
+border-bottom: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.search-box {
+position: relative;
+width: 100%;
+max-width: 500px;
+}
+
+.search-box input {
+width: 100%;
+padding: 12px 40px 12px 15px;
+border: 1px solid #332a1c;
+border-radius: 25px;
+background: #2b251d;
+color: white;
+font-size: 16px;
+margin-top: 0;
+}
+
+.search-box input:focus {
+outline: 1px solid var(--primary);
+}
+
+.search-box i {
+position: absolute;
+right: 15px;
+top: 50%;
+transform: translateY(-50%);
+color: var(--primary);
+font-size: 18px;
+}
+
+/* RECENT ORDER DISPLAY BANNER */
+.recent-order-banner {
+display: none;
+background: #1c1914;
+border: 1px dashed var(--primary);
+max-width: 500px;
+margin: 20px auto 0 auto;
+padding: 15px;
+border-radius: 12px;
+text-align: center;
+box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.recent-order-banner h4 {
+color: var(--primary);
+margin-bottom: 5px;
+font-size: 16px;
+}
+
+.recent-order-banner p {
+font-size: 14px;
+color: #ddd;
+}
+
+/* PRODUCTS SECTION */
+.container{
+padding:60px 5%;
+background: #2b2b2b; 
+}
+
+.section-title{
+text-align:center;
+font-size:34px;
+margin-bottom:40px;
+color:var(--primary);
+font-weight: bold;
+letter-spacing: 1px;
+}
+
+.products-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+}
+
+.card{
+background:var(--card); 
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 20px rgba(0,0,0,0.4);
+transition:0.3s;
+border: 1px solid rgba(0, 0, 0, 0.1);
+padding-bottom: 5px;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.slider{
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+scroll-behavior:smooth;
+-webkit-overflow-scrolling: touch;
+background: #f9f9f9;
+}
+
+.slider::-webkit-scrollbar{
+display:none;
+}
+
+.slider img{
+width:100%;
+height:280px;
+object-fit:cover;
+flex-shrink:0;
+scroll-snap-align:center;
+scroll-snap-stop:always;
+}
+
+.dots{
+text-align:center;
+margin-top:12px;
+}
+
+.dots span{
+height:10px;
+width:10px;
+background:#bbb; 
+display:inline-block;
+border-radius:50%;
+margin:0 4px;
+}
+
+.card h3{
+text-align:center;
+margin-top:15px;
+font-size:22px;
+color: #1c140a; 
+}
+
+.price{
+text-align:center;
+font-size:28px;
+color:#d35400; 
+margin:10px 0;
+font-weight:bold;
+}
+
+.btn{
+background:var(--primary);
+border:none;
+width:85%;
+padding:14px;
+display:block;
+margin:20px auto;
+border-radius:30px;
+font-size:16px;
+font-weight:bold;
+color:white;
+cursor:pointer;
+transition:0.3s;
+box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+}
+
+.btn:hover{
+background:var(--primary-hover);
+}
+
+/* CONTACT SECTION */
+.contact{
+background:#110f0b;
+padding:60px 5%;
+}
+
+.contact-box{
+background:#1c1914;
+max-width:650px;
+margin:auto;
+padding:40px 30px;
+border-radius:24px;
+border: 1px solid rgba(243, 156, 18, 0.15);
+box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.contact-grid {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.contact-item {
+display: flex;
+align-items: center;
+gap: 20px;
+background: #252018;
+padding: 16px 20px;
+border-radius: 16px;
+text-decoration: none;
+color: white;
+transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+border: 1px solid transparent;
+}
+
+.contact-item:hover {
+transform: translateX(8px);
+background: #2d271e;
+border-color: rgba(243, 156, 18, 0.4);
+}
+
+.contact-icon-wrapper {
+width: 50px;
+height: 50px;
+background: rgba(243, 156, 18, 0.1);
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+color: var(--primary);
+font-size: 22px;
+flex-shrink: 0;
+transition: 0.3s;
+}
+
+.contact-item:hover .contact-icon-wrapper {
+background: var(--primary);
+color: #110f0b;
+}
+
+.contact-details h4 {
+font-size: 14px;
+color: #888;
+text-transform: uppercase;
+margin-bottom: 4px;
+letter-spacing: 0.5px;
+}
+
+.contact-details p {
+font-size: 17px;
+font-weight: 500;
+color: #f1f1f1;
+line-height: 1.4;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+z-index:9999;
+overflow:auto;
+}
+
+.modal-content{
+background:#1c1914;
+width:90%;
+max-width:450px;
+margin:40px auto;
+padding:30px;
+border-radius:18px;
+position:relative;
+border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.close{
+position:absolute;
+top:10px;
+right:18px;
+font-size:30px;
+cursor:pointer;
+color: #aaa;
+}
+
+.close:hover{
+color: white;
+}
+
+input, textarea, select{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:1px solid #332a1c;
+border-radius:10px;
+background:#2b251d;
+color:white;
+font-size:15px;
+}
+
+input:focus, textarea:focus, select:focus{
+outline: 1px solid var(--primary);
+}
+
+#customQtyInput {
+display: none;
+}
+
+.qr-page{
+display:none;
+text-align:center;
+}
+
+.qr-page img{
+width:240px;
+height:240px;
+background:white;
+padding:10px;
+border-radius:15px;
+margin-top:20px;
+}
+
+footer{
+background:#050504;
+padding:25px;
+text-align:center;
+color:#666;
+border-top: 1px solid rgba(243, 156, 18, 0.05);
+font-size: 14px;
+}
+</style>
 </head>
+
 <body>
 
 <header id="home">
-    <div class="logo-box">
-        <img src="https://i.ibb.co/9m9tFmGD/vaneshwari-light-logo.jpg" alt="Logo">
-        <div class="brand-name">VANESHWARI LIGHT</div>
-    </div>
-    <div class="cart-icon" onclick="openCart()">
-        <span class="cart-badge" id="cartCount">0</span>
-        <i class="fas fa-shopping-cart"></i>
-    </div>
+<div class="logo-box">
+<img src="https://i.ibb.co/dsxXrTKG/images-1.png">
+<h2>Vaneshwari Light</h2>
+</div>
+
+<div class="cart-icon" onclick="openCart()">
+<i class="fas fa-shopping-cart"></i>
+<span class="cart-count" id="cartCount">0</span>
+</div>
 </header>
 
 <nav>
-    <a href="#home">Home</a>
-    <a href="#products">Products</a>
-    <a href="#contact">Contact Us</a>
+<a href="#home">Home</a>
+<a href="#products">Products</a>
+<a href="#contact">Contact</a>
 </nav>
 
-<section class="hero">
-    <h1>Brighten Your Space With Premium Lights</h1>
-    <p>Discover luxury chandeliers, modern LED fixtures, and premium interior lighting architectures engineered to brilliance.</p>
-</section>
+<div class="search-container">
+<div class="search-box">
+<input type="text" id="productSearch" onkeyup="filterProducts()" placeholder="Search products (e.g. LED, Chandelier)...">
+<i class="fas fa-search"></i>
+</div>
+</div>
+
+<div id="recentOrderBanner" class="recent-order-banner">
+    <h4><i class="fas fa-check-circle"></i> Last Order Details Saved</h4>
+    <p id="recentOrderDetails"></p>
+</div>
 
 <div class="container" id="products">
-    <h2 class="section-title">Our Exclusive Collection</h2>
-    <div class="products-grid">
-        
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600" id="p1_img">
-            <h3 id="p1_name">Modern LED Lamp</h3>
-            <div class="price">₹999</div>
-            <button class="btn" onclick="openCheckout('p1_img', 'p1_name', 999)">Buy Now</button>
-        </div>
-        
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1543196614-e046c7d3d82e?w=600" id="p2_img">
-            <h3 id="p2_name">Crystal Chandelier</h3>
-            <div class="price">₹1,499</div>
-            <button class="btn" onclick="openCheckout('p2_img', 'p2_name', 1499)">Buy Now</button>
-        </div>
-        
-    </div>
+<h2 class="section-title">Our Products</h2>
+
+<div class="products-grid">
+
+<div class="card">
+<div class="slider">
+<img src="https://i.ibb.co/0VnZFvpF/IMG-20260519-WA0011.jpg">
+<img src="https://i.ibb.co/VcbW5VW4/IMG-20260519-WA0010.jpg">
+</div>
+<div class="dots">
+<span></span>
+<span></span>
+</div>
+<h3>Modern LED Lamp</h3>
+<div class="price">₹999</div>
+<button class="btn" onclick="openCheckout('Modern LED Lamp', 999)">Buy Now</button>
 </div>
 
-<section id="contact" class="contact-section">
-    <h2 class="section-title" style="border: none; margin-bottom: 10px;">Contact Corporate Office</h2>
-    <div class="contact-card">
-        <p><i class="fas fa-phone-alt"></i> <strong>Content NO.:</strong> +91 9304976610</p>
-        <p><i class="fab fa-whatsapp"></i> <strong>Helproom:</strong> +91 9304976610</p>
-        <p><i class="fas fa-envelope"></i> <strong>Official Email:</strong> vaneshwarilights@gmail.com</p>
-        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Shiv Vihar jj colony,Uttam nagar,new delhi-110059</p>
-    </div>
+<div class="card">
+<div class="slider">
+<img src="https://i.ibb.co/zVmNsvTq/IMG-20260519-WA0009.jpg" alt="IMG-20260519-WA0009">
+<img src="https://i.ibb.co/FkvpLtkC/IMG-20260519-WA0007.jpg" alt="IMG-20260519-WA0007">
+<img src="https://i.ibb.co/9mNHwJdZ/IMG-20260519-WA0006.jpg" alt="IMG-20260519-WA0006">
+</div>
+<div class="dots">
+<span></span>
+<span></span>
+<span></span> 
+</div>
+<h3>Crystal Chandelier</h3>
+<div class="price">₹1499</div>
+<button class="btn" onclick="openCheckout('Crystal Chandelier', 1499)">Buy Now</button>
+</div>
+
+<div class="card">
+<div class="slider">
+<img src="https://i.ibb.co/DPRDbD3c/IMG-20260519-WA0005.jpg" alt="IMG-20260519-WA0005">
+<img src="https://i.ibb.co/s4mBt8H/IMG-20260519-WA0003.jpg" alt="IMG-20260519-WA0003">
+<img src="https://i.ibb.co/NnjtdxTF/IMG-20260519-WA0002.jpg" alt="IMG-20260519-WA0002">
+<img src="https://i.ibb.co/1J9hBgy5/IMG-20260519-WA0004.jpg" alt="IMG-20260519-WA0004">
+</div>
+<div class="dots">
+<span></span>
+<span></span>
+<span></span> 
+<span></span> 
+</div>
+<h3>Firework RGB Light</h3>
+<div class="price">₹1499</div>
+<button class="btn" onclick="openCheckout('Firework RGB Light', 1499)">Buy Now</button>
+</div>
+
+</div>
+</div>
+
+<section class="contact" id="contact">
+<h2 class="section-title">Contact Us</h2>
+<div class="contact-box">
+<div class="contact-grid">
+
+<a href="tel:+919304976610" class="contact-item">
+<div class="contact-icon-wrapper">
+<i class="fas fa-phone-alt"></i>
+</div>
+<div class="contact-details">
+<h4>Call Support</h4>
+<p>+91 9304976610</p>
+</div>
+</a>
+
+<a href="https://wa.me/919304976610" target="_blank" class="contact-item">
+<div class="contact-icon-wrapper">
+<i class="fab fa-whatsapp"></i>
+</div>
+<div class="contact-details">
+<h4>WhatsApp Support</h4>
+<p>Chat Live with Us</p>
+</div>
+</a>
+
+<a href="mailto:vaneshwarilights@gmail.com" class="contact-item">
+<div class="contact-icon-wrapper">
+<i class="fas fa-envelope"></i>
+</div>
+<div class="contact-details">
+<h4>Email Address</h4>
+<p>vaneshwarilights@gmail.com</p>
+</div>
+</a>
+
+<div class="contact-item">
+<div class="contact-icon-wrapper">
+<i class="fas fa-map-marker-alt"></i>
+</div>
+<div class="contact-details">
+<h4>Store Location</h4>
+<p>Shiv Vihar JJ Colony, Uttam Nagar, New Delhi</p>
+</div>
+</div>
+
+</div>
+</div>
 </section>
 
+<div class="modal" id="checkoutModal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">&times;</span>
+
+<div id="emptyCartMessage" style="display:none; text-align:center; padding:20px 0;">
+    <i class="fas fa-shopping-basket" style="font-size: 50px; color: var(--primary); margin-bottom: 15px;"></i>
+    <h3 style="color:white; margin-bottom: 10px;">Aapki Toli Khali Hai!</h3>
+    <p style="color:#aaa; font-size:14px;">Kripya order karne ke liye pehle kisi product ke niche diye gaye "Buy Now" button par click karein.</p>
+</div>
+
+<div id="orderForm">
+<h2 style="text-align:center;color:var(--primary);" id="modalTitle">Place Order</h2>
+<input type="text" id="custName" placeholder="Enter Name">
+<input type="number" id="custPhone" placeholder="Enter Phone Number">
+<textarea id="custAddress" placeholder="Enter Address"></textarea>
+
+<select id="quantity" onchange="checkQuantity(this.value)">
+<option value="1">1 Quantity</option>
+<option value="2">2 Quantity</option>
+<option value="3">3 Quantity</option>
+<option value="4">4 Quantity</option>
+<option value="5">5 Quantity</option>
+<option value="more">5+ (Enter More Quantity)</option> 
+</select>
+
+<input type="number" id="customQtyInput" min="6" placeholder="Enter custom quantity (e.g. 10)">
+
+<select id="paymentMethod">
+<option value="Online Payment">Online Payment</option>
+<option value="Cash On Delivery">Cash On Delivery</option>
+</select>
+
+<button class="btn" onclick="placeOrder()">Place Order</button>
+</div>
+
+<div class="qr-page" id="qrPage">
+<h2 style="color:var(--primary);">Scan & Pay</h2>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=upi://pay?pa=9304976610@okaxis&pn=VaneshwariLight">
+<p style="margin-top:15px;font-size:18px;font-weight:bold;">UPI Payment</p>
+<div style="background: #2b251d; border-left: 4px solid var(--primary); padding: 12px; margin: 15px auto; border-radius: 8px; text-align: left; font-size: 14px; width: 85%; line-height: 1.4;">
+    <p style="margin: 0; color: #ccc;">
+        <strong>Note:</strong> After completing the UPI payment, please take a screenshot and send it to this WhatsApp number: 
+        <span style="color: var(--primary); font-weight: bold; display: block; margin-top: 4px;">+91 9304976610</span>
+    </p>
+</div>
+<button class="btn" onclick="sendWhatsappOrder()">Payment Done</button>
+</div>
+
+</div>
+</div>
+
 <footer>
-    &copy; 2026 Vaneshwari Light Store. All Rights Reserved.
+© 2026 Vaneshwari Light Store
 </footer>
 
-<div id="cartModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
-        <h3 style="color: var(--primary); font-size: 24px; margin-bottom: 20px; border-bottom: 1px solid #2d2d2d; padding-bottom: 10px;">Shopping Cart Ledger</h3>
-        <div id="cartList" style="max-height: 400px; overflow-y: auto;">Your cart is empty!</div>
-    </div>
-</div>
-
-<div id="checkoutModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('checkoutModal')">&times;</span>
-        
-        <div id="step1" class="step active">
-            <h3 style="text-align: center; margin-bottom: 15px; font-size: 22px; color: var(--primary);">Secure Checkout</h3>
-            <input type="text" id="custName" placeholder="Enter Full Name">
-            <input type="number" id="custPhone" placeholder="Enter Mobile Number">
-            <textarea id="custAddr" rows="3" placeholder="Enter Full Address"></textarea>
-            
-            <p style="margin: 5px 0; font-weight: 600; color: var(--primary);">Select Quantity (Pcs):</p>
-            <select id="itemQty">
-                <option value="1">1 Pcs</option>
-                <option value="2">2 Pcs</option>
-                <option value="3">3 Pcs</option>
-                <option value="4">4 Pcs</option>
-                <option value="5">5 Pcs</option>
-                <option value="10">10 Pcs</option>
-            </select>
-            
-            <p style="margin: 10px 0 5px 0; font-weight: 600; color: var(--primary);">Select Payment Method:</p>
-            <select id="payMethod">
-                <option value="Online">Online Payment</option>
-                <option value="COD">Cash On Delivery (COD)</option>
-            </select>
-            
-            <button class="btn" style="margin-top: 25px;" onclick="processOrderRouting()">Generate & Place Order</button>
-        </div>
-
-        <div id="step2" class="step" style="text-align: center;">
-            <i class="fas fa-check-circle" style="font-size: 55px; color: var(--success); margin-bottom: 10px;"></i>
-            <h2 style="margin: 10px 0; font-size: 26px;">Order Logged Successfully!</h2>
-            
-            <div id="qrBox" class="qr-section">
-                <p>Scan UPI QR To Complete Remittance</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9304976610@okaxis&pn=VaneshwariLight" alt="UPI QR Engine Image">
-            </div>
-            
-            <p style="margin-top: 20px; color: var(--text-muted); font-size: 14px;">
-                <i class="fas fa-spinner fa-spin" style="color: var(--primary); margin-right: 5px;"></i> Redirecting directly to WhatsApp application...
-            </p>
-            <button class="btn" style="margin-top: 25px;" onclick="closeModal('checkoutModal')">Return to Store</button>
-        </div>
-    </div>
-</div>
-
 <script>
-    let globalCartArray = [];
-    let stateCacheObject = {};
+let productName = "";
+let productPrice = "";
+let totalPrice = "";
+let whatsappMessage = "";
+let cart = 0;
 
-    function openCheckout(imgSrcId, nameSrcId, basePriceValue) {
-        stateCacheObject = {
-            id: Date.now(),
-            img: document.getElementById(imgSrcId).src,
-            name: document.getElementById(nameSrcId).innerText,
-            price: parseInt(basePriceValue)
-        };
-        document.getElementById('checkoutModal').style.display = 'block';
-        toggleStepView(1);
+window.onload = function() {
+    if(localStorage.getItem("cartCount")) {
+        cart = parseInt(localStorage.getItem("cartCount"));
+        document.getElementById("cartCount").innerText = cart;
     }
-
-    function toggleStepView(stepNumber) {
-        document.querySelectorAll('.step').forEach(element => element.classList.remove('active'));
-        document.getElementById('step' + stepNumber).classList.add('active');
+    
+    if(localStorage.getItem("lastOrderProduct")) {
+        productName = localStorage.getItem("lastOrderProduct");
+        productPrice = localStorage.getItem("lastOrderPrice") || "999"; 
+        let savedQty = localStorage.getItem("lastOrderQty") || "1";
+        let savedTotal = localStorage.getItem("lastOrderTotal") || productPrice;
+        
+        document.getElementById("recentOrderDetails").innerHTML = `Ordered: <strong>${productName}</strong> (Qty: ${savedQty}) | Total: <strong>₹${savedTotal}</strong>`;
+        document.getElementById("recentOrderBanner").style.display = "block";
     }
+}
 
-    function processOrderRouting() {
-        const clientNameInput = document.getElementById('custName').value.trim();
-        const clientPhoneInput = document.getElementById('custPhone').value.trim();
-        const clientAddressInput = document.getElementById('custAddr').value.trim();
-        const selectionPaymentMethod = document.getElementById('payMethod').value;
-        const chosenQuantity = parseInt(document.getElementById('itemQty').value);
+// Toli kholne ka solid tarika bina alert fansaye
+function openCart() {
+    document.getElementById("checkoutModal").style.display = "block";
+    
+    if(cart === 0 || !productName) {
+        document.getElementById("emptyCartMessage").style.display = "block";
+        document.getElementById("orderForm").style.display = "none";
+        document.getElementById("qrPage").style.display = "none";
+    } else {
+        document.getElementById("emptyCartMessage").style.display = "none";
+        document.getElementById("orderForm").style.display = "block";
+        document.getElementById("qrPage").style.display = "none";
+        document.getElementById("modalTitle").innerText = `Order for ${productName}`;
+    }
+}
 
-        if(clientNameInput && clientPhoneInput && clientAddressInput.length > 4) {
-            const totalCalculatedCost = stateCacheObject.price * chosenQuantity;
-            
-            globalCartArray.push({
-                ...stateCacheObject,
-                qty: chosenQuantity,
-                finalPrice: totalCalculatedCost
-            });
-            synchronizeUserInterfaceState();
-
-            if(selectionPaymentMethod === 'Online') {
-                document.getElementById('qrBox').style.display = 'block';
-            } else {
-                document.getElementById('qrBox').style.display = 'none';
-            }
-
-            toggleStepView(2);
-
-            const directTargetNumber = "+91 9304976610";
-            const serializedMessageBody = `*--- VANESHWARI LIGHT NEW ORDER ---*%0A%0A` +
-                                          `*Ordered Item:* ${stateCacheObject.name}%0A` +
-                                          `*Quantity:* ${chosenQuantity} Pcs%0A` +
-                                          `*Total Cost:* ₹${totalCalculatedCost}%0A` +
-                                          `*Payment Method:* ${selectionPaymentMethod}%0A%0A` +
-                                          `*Customer Name:* ${clientNameInput}%0A` +
-                                          `*Contact Phone:* ${clientPhoneInput}%0A` +
-                                          `*Delivery Address:* ${clientAddressInput}`;
-
-            setTimeout(() => {
-                window.location.href = `https://api.whatsapp.com/send?phone=${directTargetNumber}&text=${serializedMessageBody}`;
-            }, 2500);
-
+function filterProducts() {
+    let input = document.getElementById('productSearch').value.toLowerCase();
+    let cards = document.getElementsByClassName('card');
+    
+    for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+        if (title.includes(input)) {
+            cards[i].style.display = "";
         } else {
-            alert("Please fill all details correctly before proceeding.");
+            cards[i].style.display = "none";
         }
     }
+}
 
-    function cancelOrderRegistration(registeredId) {
-        if(confirm("Are you sure you want to cancel this item?")) {
-            globalCartArray = globalCartArray.filter(itemNode => itemNode.id !== registeredId);
-            synchronizeUserInterfaceState();
-        }
-    }
+function openCheckout(name,price){
+productName = name;
+productPrice = price;
 
-    function synchronizeUserInterfaceState() {
-        document.getElementById('cartCount').innerText = globalCartArray.length;
-        const layoutTargetContainer = document.getElementById('cartList');
-        
-        if(globalCartArray.length === 0) { 
-            layoutTargetContainer.innerHTML = "Your cart is empty!"; 
-            return; 
-        }
-        
-        layoutTargetContainer.innerHTML = globalCartArray.map(itemInstance => `
-            <div class="cart-item">
-                <img src="${itemInstance.img}">
-                <div class="cart-item-details">
-                    <h4 style="font-size: 16px; font-weight: 600;">${itemInstance.name} (${itemInstance.qty} Pcs)</h4>
-                    <p style="color: var(--primary); font-weight: 700; margin-top: 2px;">₹${itemInstance.finalPrice}</p>
-                    <button class="cancel-order" onclick="cancelOrderRegistration(${itemInstance.id})">
-                        <i class="fas fa-trash-alt"></i> Cancel Order
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    }
+localStorage.setItem("lastOrderProduct", name);
+localStorage.setItem("lastOrderPrice", price);
 
-    function openCart() { document.getElementById('cartModal').style.display = 'block'; }
-    function closeModal(targetModalId) { document.getElementById(targetModalId).style.display = 'none'; }
+document.getElementById("checkoutModal").style.display = "block";
+document.getElementById("emptyCartMessage").style.display = "none";
+document.getElementById("orderForm").style.display = "block";
+document.getElementById("qrPage").style.display = "none";
+document.getElementById("modalTitle").innerText = "Place Order";
+
+document.getElementById("quantity").value = "1";
+document.getElementById("customQtyInput").style.display = "none";
+document.getElementById("customQtyInput").value = "";
+}
+
+function closeModal(){
+document.getElementById("checkoutModal").style.display = "none";
+}
+
+function checkQuantity(val) {
+let customInput = document.getElementById("customQtyInput");
+if(val === "more") {
+customInput.style.display = "block";
+customInput.required = true;
+} else {
+customInput.style.display = "none";
+customInput.value = "";
+}
+}
+
+function placeOrder(){
+let name = document.getElementById("custName").value;
+let phone = document.getElementById("custPhone").value;
+let address = document.getElementById("custAddress").value;
+let selectQty = document.getElementById("quantity").value;
+let payment = document.getElementById("paymentMethod").value;
+let qty = selectQty;
+
+if(selectQty === "more") {
+qty = document.getElementById("customQtyInput").value;
+if(qty == "" || qty <= 0) {
+alert("Please enter a valid quantity");
+return;
+}
+}
+
+if(name=="" || phone=="" || address==""){
+alert("Please fill all details");
+return;
+}
+
+totalPrice = productPrice * qty;
+
+if(cart === 0) {
+    cart = 1;
+}
+localStorage.setItem("cartCount", cart);
+localStorage.setItem("lastOrderQty", qty);
+localStorage.setItem("lastOrderTotal", totalPrice);
+
+document.getElementById("cartCount").innerText = cart;
+
+whatsappMessage = `*NEW ORDER*%0A%0A` +
+`Product: ${productName}%0A` +
+`Price: ₹${productPrice}%0A` +
+`Quantity: ${qty}%0A` +
+`Total: ₹${totalPrice}%0A` +
+`Payment Method: ${payment}%0A%0A` +
+`Name: ${name}%0A` +
+`Phone: ${phone}%0A` +
+`Address: ${address}`;
+
+if(payment=="Online Payment"){
+document.getElementById("orderForm").style.display = "none";
+document.getElementById("qrPage").style.display = "block";
+}else{
+sendWhatsappOrder();
+}
+}
+
+// Is function me window.open ki jagah location change kiya h taaki popup blocker block na kare
+function sendWhatsappOrder(){
+let targetUrl = `https://wa.me/919304976610?text=${whatsappMessage}`;
+window.location.href = targetUrl;
+} 
+
+window.onclick = function(event){
+let modal = document.getElementById("checkoutModal");
+if(event.target == modal){
+closeModal();
+}
+}
 </script>
 
 </body>
-</html>
+    </html>
+    
