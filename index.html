@@ -9,10 +9,10 @@
 
 <style>
 :root{
---primary:#f39c12; /* Golden/Orange */
+--primary:#f39c12; 
 --primary-hover:#e67e22;
---dark:#0b0a07; /* Super Dark Premium Background */
---card:#ffffff; /* Light Card White Background */
+--dark:#110f0b; 
+--card:#1c1914; 
 --white:#ffffff;
 }
 
@@ -28,7 +28,7 @@ background:var(--dark);
 color:white;
 }
 
-/* HEADER WITH RAINBOW DP BORDER */
+/* HEADER */
 header{
 background:#1c140a; 
 padding:15px 5%;
@@ -152,34 +152,10 @@ color: var(--primary);
 font-size: 18px;
 }
 
-/* RECENT ORDER DISPLAY BANNER */
-.recent-order-banner {
-display: none;
-background: #1c1914;
-border: 1px dashed var(--primary);
-max-width: 500px;
-margin: 20px auto 0 auto;
-padding: 15px;
-border-radius: 12px;
-text-align: center;
-box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.recent-order-banner h4 {
-color: var(--primary);
-margin-bottom: 5px;
-font-size: 16px;
-}
-
-.recent-order-banner p {
-font-size: 14px;
-color: #ddd;
-}
-
 /* PRODUCTS SECTION */
 .container{
-padding:60px 5%;
-background: #2b2b2b; 
+padding:40px 5%;
+background: #110f0b; 
 }
 
 .section-title{
@@ -203,62 +179,84 @@ border-radius:18px;
 overflow:hidden;
 box-shadow:0 10px 20px rgba(0,0,0,0.4);
 transition:0.3s;
-border: 1px solid rgba(0, 0, 0, 0.1);
-padding-bottom: 5px;
+border: 1px solid rgba(243, 156, 18, 0.1);
+padding-bottom: 15px;
+position: relative;
+text-align: center;
 }
 
 .card:hover{
 transform:translateY(-8px);
-box-shadow:0 15px 30px rgba(0, 0, 0, 0.6);
+box-shadow:0 15px 30px rgba(243, 156, 18, 0.2);
+}
+
+/* SLIDER SYSTEM */
+.slider-container {
+position: relative;
+width: 100%;
+height: 280px;
+overflow: hidden;
+background: #252018;
 }
 
 .slider{
 display:flex;
-overflow-x:auto;
-scroll-snap-type:x mandatory;
-scroll-behavior:smooth;
+width: 100%;
+height: 100%;
+overflow-x: auto;
+scroll-snap-type: x mandatory;
+scroll-behavior: smooth;
 -webkit-overflow-scrolling: touch;
-background: #f9f9f9;
 }
 
-.slider::-webkit-scrollbar{
-display:none;
+.slider::-webkit-scrollbar {
+display: none;
 }
 
 .slider img{
 width:100%;
-height:280px;
+height:100%;
 object-fit:cover;
 flex-shrink:0;
-scroll-snap-align:center;
-scroll-snap-stop:always;
+scroll-snap-align:start;
+scroll-snap-stop: always;
 }
 
+/* DOTS STYLE */
 .dots{
 text-align:center;
 margin-top:12px;
+display: flex;
+justify-content: center;
+gap: 6px;
+height: 12px;
 }
 
 .dots span{
 height:10px;
 width:10px;
-background:#bbb; 
+background:#555; 
 display:inline-block;
 border-radius:50%;
-margin:0 4px;
+transition: 0.3s;
+}
+
+.dots span.active{
+background: var(--primary);
+width: 20px;
+border-radius: 5px;
 }
 
 .card h3{
-text-align:center;
 margin-top:15px;
 font-size:22px;
-color: #1c140a; 
+color: #ffffff; 
+padding: 0 10px;
 }
 
 .price{
-text-align:center;
-font-size:28px;
-color:#d35400; 
+font-size:26px;
+color:var(--primary); 
 margin:10px 0;
 font-weight:bold;
 }
@@ -269,23 +267,24 @@ border:none;
 width:85%;
 padding:14px;
 display:block;
-margin:20px auto;
+margin:15px auto 5px auto;
 border-radius:30px;
 font-size:16px;
 font-weight:bold;
 color:white;
 cursor:pointer;
 transition:0.3s;
-box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
 }
 
 .btn:hover{
 background:var(--primary-hover);
+transform: scale(1.02);
 }
 
 /* CONTACT SECTION */
 .contact{
-background:#110f0b;
+background:#0b0a07;
 padding:60px 5%;
 }
 
@@ -335,7 +334,6 @@ align-items: center;
 color: var(--primary);
 font-size: 22px;
 flex-shrink: 0;
-transition: 0.3s;
 }
 
 .contact-item:hover .contact-icon-wrapper {
@@ -348,17 +346,15 @@ font-size: 14px;
 color: #888;
 text-transform: uppercase;
 margin-bottom: 4px;
-letter-spacing: 0.5px;
 }
 
 .contact-details p {
 font-size: 17px;
 font-weight: 500;
 color: #f1f1f1;
-line-height: 1.4;
 }
 
-/* MODAL */
+/* MODAL BOXES BACKGROUND */
 .modal{
 display:none;
 position:fixed;
@@ -366,33 +362,110 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.9);
+background:rgba(0,0,0,0.85);
 z-index:9999;
 overflow:auto;
+backdrop-filter: blur(5px);
 }
 
 .modal-content{
 background:#1c1914;
-width:90%;
+width:92%;
 max-width:450px;
-margin:40px auto;
-padding:30px;
-border-radius:18px;
+margin:50px auto;
+padding:25px;
+border-radius:24px;
 position:relative;
-border: 1px solid rgba(243, 156, 18, 0.2);
+border: 1px solid rgba(243, 156, 18, 0.25);
+box-shadow: 0 20px 40px rgba(0,0,0,0.8);
 }
 
 .close{
 position:absolute;
-top:10px;
-right:18px;
-font-size:30px;
+top:15px;
+right:20px;
+font-size:28px;
 cursor:pointer;
 color: #aaa;
+transition: 0.2s;
 }
 
 .close:hover{
 color: white;
+}
+
+/* TOLI STYLE (AS PER SCREENSHOT 1000003915) */
+.cart-title-wrapper {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+color: var(--primary);
+font-size: 24px;
+margin-bottom: 20px;
+font-weight: bold;
+}
+
+.cart-item-container {
+background: #252018;
+border-radius: 16px;
+padding: 15px;
+border: 1px solid rgba(243, 156, 18, 0.15);
+margin-bottom: 20px;
+}
+
+.cart-item-view {
+display: flex;
+align-items: center;
+gap: 15px;
+justify-content: space-between;
+}
+
+.cart-item-view img {
+width: 85px;
+height: 85px;
+object-fit: cover;
+border-radius: 12px;
+border: 2px solid var(--primary);
+background: #1c1914;
+}
+
+.cart-item-details {
+flex-grow: 1;
+text-align: left;
+}
+
+.cart-item-details h4 {
+color: white;
+font-size: 18px;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+.cart-item-details p {
+color: var(--primary);
+font-size: 16px;
+font-weight: bold;
+}
+
+.cancel-btn {
+background: #d32f2f;
+color: white;
+border: none;
+padding: 10px 14px;
+border-radius: 10px;
+cursor:pointer;
+font-weight: bold;
+font-size: 13px;
+transition: 0.2s;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 4px;
+}
+
+.cancel-btn:hover {
+background: #f44336;
 }
 
 input, textarea, select{
@@ -400,13 +473,13 @@ width:100%;
 padding:14px;
 margin-top:15px;
 border:1px solid #332a1c;
-border-radius:10px;
+border-radius:12px;
 background:#2b251d;
 color:white;
 font-size:15px;
 }
 
-input:focus, textarea:focus, select:focus{
+input:focus, textarea:focus, select:focus {
 outline: 1px solid var(--primary);
 }
 
@@ -420,12 +493,25 @@ text-align:center;
 }
 
 .qr-page img{
-width:240px;
-height:240px;
+width:220px;
+height:220px;
 background:white;
 padding:10px;
 border-radius:15px;
-margin-top:20px;
+margin:20px auto;
+display: block;
+}
+
+.qr-instruction {
+font-size: 14px;
+color: #f1f1f1;
+line-height: 1.5;
+margin: 15px 0;
+background: rgba(243, 156, 18, 0.1);
+padding: 12px;
+border-radius: 8px;
+border: 1px dashed var(--primary);
+text-align: center;
 }
 
 footer{
@@ -433,8 +519,8 @@ background:#050504;
 padding:25px;
 text-align:center;
 color:#666;
-border-top: 1px solid rgba(243, 156, 18, 0.05);
 font-size: 14px;
+border-top: 1px solid #1c140a;
 }
 </style>
 </head>
@@ -461,67 +547,81 @@ font-size: 14px;
 
 <div class="search-container">
 <div class="search-box">
-<input type="text" id="productSearch" onkeyup="filterProducts()" placeholder="Search products (e.g. LED, Chandelier)...">
+<input type="text" id="productSearch" onkeyup="filterProducts()" placeholder="Search products...">
 <i class="fas fa-search"></i>
 </div>
 </div>
 
-<div id="recentOrderBanner" class="recent-order-banner">
-    <h4><i class="fas fa-check-circle"></i> Last Order Details Saved</h4>
-    <p id="recentOrderDetails"></p>
-</div>
-
 <div class="container" id="products">
 <h2 class="section-title">Our Products</h2>
-
 <div class="products-grid">
 
 <div class="card">
-<div class="slider">
-<img src="https://i.ibb.co/0VnZFvpF/IMG-20260519-WA0011.jpg">
-<img src="https://i.ibb.co/VcbW5VW4/IMG-20260519-WA0010.jpg">
+<div class="slider-container">
+    <div class="slider" onscroll="updateDots(this, 0)">
+        <img src="https://i.ibb.co/0VnZFvpF/IMG-20260519-WA0011.jpg">
+        <img src="https://i.ibb.co/Zz2qz8MV/IMG-20260519-WA0010.jpg">
+    </div>
 </div>
-<div class="dots">
-<span></span>
-<span></span>
+<div class="dots" id="dots-0">
+    <span class="active"></span>
+    <span></span>
 </div>
 <h3>Modern LED Lamp</h3>
 <div class="price">₹999</div>
-<button class="btn" onclick="openCheckout('Modern LED Lamp', 999)">Buy Now</button>
+<button class="btn" onclick="openCheckoutDirectly('Modern LED Lamp', 999, 'https://i.ibb.co/0VnZFvpF/IMG-20260519-WA0011.jpg')">Buy Now</button>
 </div>
 
 <div class="card">
-<div class="slider">
-<img src="https://i.ibb.co/zVmNsvTq/IMG-20260519-WA0009.jpg" alt="IMG-20260519-WA0009">
-<img src="https://i.ibb.co/FkvpLtkC/IMG-20260519-WA0007.jpg" alt="IMG-20260519-WA0007">
-<img src="https://i.ibb.co/9mNHwJdZ/IMG-20260519-WA0006.jpg" alt="IMG-20260519-WA0006">
+<div class="slider-container">
+    <div class="slider" onscroll="updateDots(this, 1)">
+        <img src="https://i.ibb.co/zVmNsvTq/IMG-20260519-WA0009.jpg">
+        <img src="https://i.ibb.co/FkvpLtkC/IMG-20260519-WA0007.jpg">
+        <img src="https://i.ibb.co/v4y2DNdc/IMG-20260519-WA0008.jpg">
+    </div>
 </div>
-<div class="dots">
-<span></span>
-<span></span>
-<span></span> 
+<div class="dots" id="dots-1">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
 </div>
 <h3>Crystal Chandelier</h3>
 <div class="price">₹1499</div>
-<button class="btn" onclick="openCheckout('Crystal Chandelier', 1499)">Buy Now</button>
+<button class="btn" onclick="openCheckoutDirectly('Crystal Chandelier', 1499, 'https://i.ibb.co/zVmNsvTq/IMG-20260519-WA0009.jpg')">Buy Now</button>
 </div>
 
 <div class="card">
-<div class="slider">
-<img src="https://i.ibb.co/DPRDbD3c/IMG-20260519-WA0005.jpg" alt="IMG-20260519-WA0005">
-<img src="https://i.ibb.co/s4mBt8H/IMG-20260519-WA0003.jpg" alt="IMG-20260519-WA0003">
-<img src="https://i.ibb.co/NnjtdxTF/IMG-20260519-WA0002.jpg" alt="IMG-20260519-WA0002">
-<img src="https://i.ibb.co/1J9hBgy5/IMG-20260519-WA0004.jpg" alt="IMG-20260519-WA0004">
+<div class="slider-container">
+    <div class="slider" onscroll="updateDots(this, 2)">
+        <img src="https://i.ibb.co/DPRDbD3c/IMG-20260519-WA0005.jpg">
+        <img src="https://i.ibb.co/bMcdyMkD/IMG-20260519-WA0002.jpg">
+        <img src="https://i.ibb.co/N24Y1GkY/IMG-20260519-WA0003.jpg">
+        <img src="https://i.ibb.co/fzByvB42/IMG-20260519-WA0004.jpg">
+    </div>
 </div>
-<div class="dots">
-<span></span>
-<span></span>
-<span></span> 
-<span></span> 
+<div class="dots" id="dots-2">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+    <span></span>
 </div>
 <h3>Firework RGB Light</h3>
 <div class="price">₹1499</div>
-<button class="btn" onclick="openCheckout('Firework RGB Light', 1499)">Buy Now</button>
+<button class="btn" onclick="openCheckoutDirectly('Firework RGB Light', 1499, 'https://i.ibb.co/DPRDbD3c/IMG-20260519-WA0005.jpg')">Buy Now</button>
+</div>
+
+<div class="card">
+<div class="slider-container">
+    <div class="slider" onscroll="updateDots(this, 3)">
+        <img src="https://i.ibb.co/hF7HDqBd/IMG-20260519-WA0000.jpg">
+    </div>
+</div>
+<div class="dots" id="dots-3">
+    <span class="active"></span>
+</div>
+<h3>Solar Fan</h3>
+<div class="price">₹1500</div>
+<button class="btn" onclick="openCheckoutDirectly('Solar Fan', 1500, 'https://i.ibb.co/hF7HDqBd/IMG-20260519-WA0000.jpg')">Buy Now</button>
 </div>
 
 </div>
@@ -531,63 +631,66 @@ font-size: 14px;
 <h2 class="section-title">Contact Us</h2>
 <div class="contact-box">
 <div class="contact-grid">
-
-<a href="tel:+919304976610" class="contact-item">
-<div class="contact-icon-wrapper">
-<i class="fas fa-phone-alt"></i>
-</div>
-<div class="contact-details">
-<h4>Call Support</h4>
-<p>+91 9304976610</p>
-</div>
-</a>
-
-<a href="https://wa.me/919304976610" target="_blank" class="contact-item">
-<div class="contact-icon-wrapper">
-<i class="fab fa-whatsapp"></i>
-</div>
-<div class="contact-details">
-<h4>WhatsApp Support</h4>
-<p>Chat Live with Us</p>
-</div>
-</a>
-
-<a href="mailto:vaneshwarilights@gmail.com" class="contact-item">
-<div class="contact-icon-wrapper">
-<i class="fas fa-envelope"></i>
-</div>
-<div class="contact-details">
-<h4>Email Address</h4>
-<p>vaneshwarilights@gmail.com</p>
-</div>
-</a>
-
-<div class="contact-item">
-<div class="contact-icon-wrapper">
-<i class="fas fa-map-marker-alt"></i>
-</div>
-<div class="contact-details">
-<h4>Store Location</h4>
-<p>Shiv Vihar JJ Colony, Uttam Nagar, New Delhi</p>
-</div>
-</div>
-
+    <a href="tel:+919304976610" class="contact-item">
+        <div class="contact-icon-wrapper"><i class="fas fa-phone-alt"></i></div>
+        <div class="contact-details"><h4>Call Support</h4><p>+91 9304976610</p></div>
+    </a>
+    <a href="https://wa.me/919304976610" target="_blank" class="contact-item">
+        <div class="contact-icon-wrapper"><i class="fab fa-whatsapp"></i></div>
+        <div class="contact-details"><h4>WhatsApp Support</h4><p>Chat Live with Us</p></div>
+    </a>
+    <a href="mailto:vaneshwarilights@gmail.com" class="contact-item">
+        <div class="contact-icon-wrapper"><i class="fas fa-envelope"></i></div>
+        <div class="contact-details"><h4>Email Address</h4><p>vaneshwarilights@gmail.com</p></div>
+    </a>
+    <div class="contact-item">
+        <div class="contact-icon-wrapper"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="contact-details"><h4>Store Location</h4><p>Shiv Vihar JJ Colony, Uttam Nagar, New Delhi</p></div>
+    </div>
 </div>
 </div>
 </section>
 
-<div class="modal" id="checkoutModal">
+<div class="modal" id="cartModal">
 <div class="modal-content">
-<span class="close" onclick="closeModal()">&times;</span>
-
-<div id="emptyCartMessage" style="display:none; text-align:center; padding:20px 0;">
-    <i class="fas fa-shopping-basket" style="font-size: 50px; color: var(--primary); margin-bottom: 15px;"></i>
-    <h3 style="color:white; margin-bottom: 10px;">Aapki Toli Khali Hai!</h3>
-    <p style="color:#aaa; font-size:14px;">Kripya order karne ke liye pehle kisi product ke niche diye gaye "Buy Now" button par click karein.</p>
+<span class="close" onclick="closeCartModal()">&times;</span>
+<div class="cart-title-wrapper">
+    <i class="fas fa-shopping-cart"></i>
+    <span>Aapki Toli</span>
 </div>
 
+<div id="emptyCartMessage" style="text-align:center; padding:30px 0;">
+    <i class="fas fa-shopping-basket" style="font-size: 50px; color: #444; margin-bottom: 15px;"></i>
+    <h3 style="color:#888;">Aapki toli khali hai!</h3>
+</div>
+
+<div id="cartContentSection" style="display:none;">
+    <div class="cart-item-container">
+        <div class="cart-item-view">
+            <img src="" id="cartProductImg">
+            <div class="cart-item-details">
+                <h4 id="cartProductName">Product Name</h4>
+                <p id="cartProductPrice">₹0</p>
+            </div>
+            <button class="cancel-btn" onclick="triggerCancellation()">
+                <i class="fas fa-trash"></i>
+                <span>Cancel</span>
+            </button>
+        </div>
+    </div>
+    <button class="btn" onclick="openCheckoutFromCart()">Proceed to Checkout</button>
+</div>
+</div>
+</div>
+
+<div class="modal" id="checkoutModal">
+<div class="modal-content">
+<span class="close" onclick="closeCheckoutModal()">&times;</span>
+
 <div id="orderForm">
-<h2 style="text-align:center;color:var(--primary);" id="modalTitle">Place Order</h2>
+<h2 style="text-align:center;color:var(--primary);" id="modalTitle">Delivery Details</h2>
+<p style="text-align:center; font-size:12px; color:#aaa; margin-top:5px;">Store Support: +91 9304976610</p>
+
 <input type="text" id="custName" placeholder="Enter Name">
 <input type="number" id="custPhone" placeholder="Enter Phone Number">
 <textarea id="custAddress" placeholder="Enter Address"></textarea>
@@ -601,187 +704,172 @@ font-size: 14px;
 <option value="more">5+ (Enter More Quantity)</option> 
 </select>
 
-<input type="number" id="customQtyInput" min="6" placeholder="Enter custom quantity (e.g. 10)">
+<input type="number" id="customQtyInput" min="6" placeholder="Enter custom quantity">
 
 <select id="paymentMethod">
 <option value="Online Payment">Online Payment</option>
 <option value="Cash On Delivery">Cash On Delivery</option>
 </select>
 
-<button class="btn" onclick="placeOrder()">Place Order</button>
+<button class="btn" onclick="placeOrder()">Confirm Order</button>
 </div>
 
 <div class="qr-page" id="qrPage">
 <h2 style="color:var(--primary);">Scan & Pay</h2>
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=upi://pay?pa=9304976610@okaxis&pn=VaneshwariLight">
-<p style="margin-top:15px;font-size:18px;font-weight:bold;">UPI Payment</p>
-<div style="background: #2b251d; border-left: 4px solid var(--primary); padding: 12px; margin: 15px auto; border-radius: 8px; text-align: left; font-size: 14px; width: 85%; line-height: 1.4;">
-    <p style="margin: 0; color: #ccc;">
-        <strong>Note:</strong> After completing the UPI payment, please take a screenshot and send it to this WhatsApp number: 
-        <span style="color: var(--primary); font-weight: bold; display: block; margin-top: 4px;">+91 9304976610</span>
-    </p>
+<div class="qr-instruction">
+    As soon as your payment is done, take a screenshot of it and send it to this number 9304976610.
 </div>
-<button class="btn" onclick="sendWhatsappOrder()">Payment Done</button>
+<button class="btn" onclick="sendWhatsappOrder()">Payment Done (Open WhatsApp)</button>
 </div>
-
 </div>
 </div>
 
-<footer>
-© 2026 Vaneshwari Light Store
-</footer>
+<footer>© 2026 Vaneshwari Light Store</footer>
 
 <script>
 let productName = "";
-let productPrice = "";
-let totalPrice = "";
+let productPrice = 0;
+let productImg = "";
+let totalPrice = 0;
 let whatsappMessage = "";
-let cart = 0;
+let cartCount = 0;
 
 window.onload = function() {
-    if(localStorage.getItem("cartCount")) {
-        cart = parseInt(localStorage.getItem("cartCount"));
-        document.getElementById("cartCount").innerText = cart;
-    }
-    
-    if(localStorage.getItem("lastOrderProduct")) {
-        productName = localStorage.getItem("lastOrderProduct");
-        productPrice = localStorage.getItem("lastOrderPrice") || "999"; 
-        let savedQty = localStorage.getItem("lastOrderQty") || "1";
-        let savedTotal = localStorage.getItem("lastOrderTotal") || productPrice;
-        
-        document.getElementById("recentOrderDetails").innerHTML = `Ordered: <strong>${productName}</strong> (Qty: ${savedQty}) | Total: <strong>₹${savedTotal}</strong>`;
-        document.getElementById("recentOrderBanner").style.display = "block";
+    if(localStorage.getItem("cartProductName")) {
+        productName = localStorage.getItem("cartProductName");
+        productPrice = parseInt(localStorage.getItem("cartProductOriginalPrice") || 0);
+        totalPrice = parseInt(localStorage.getItem("cartProductPrice") || 0);
+        productImg = localStorage.getItem("cartProductImg");
+        cartCount = 1;
+        updateCartIcon();
     }
 }
 
-// Toli kholne ka solid tarika bina alert fansaye
-function openCart() {
-    document.getElementById("checkoutModal").style.display = "block";
+function updateCartIcon() {
+    document.getElementById("cartCount").innerText = cartCount;
+}
+
+// DOTS SCROLL LOGIC
+function updateDots(slider, index) {
+    let scrollLeft = slider.scrollLeft;
+    let width = slider.offsetWidth;
+    let page = Math.round(scrollLeft / width);
     
-    if(cart === 0 || !productName) {
+    let dotsContainer = document.getElementById("dots-" + index);
+    let dots = dotsContainer.getElementsByTagName("span");
+    
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+    }
+    if(dots[page]) {
+        dots[page].classList.add("active");
+    }
+}
+
+// FIXED: Buy Now click handles parameters properly
+function openCheckoutDirectly(name, price, imgUrl) {
+    productName = name;
+    productPrice = price;
+    productImg = imgUrl;
+
+    document.getElementById("checkoutModal").style.display = "block";
+    document.getElementById("orderForm").style.display = "block";
+    document.getElementById("qrPage").style.display = "none";
+}
+
+function openCart() {
+    document.getElementById("cartModal").style.display = "block";
+    
+    if(cartCount === 0) {
         document.getElementById("emptyCartMessage").style.display = "block";
-        document.getElementById("orderForm").style.display = "none";
-        document.getElementById("qrPage").style.display = "none";
+        document.getElementById("cartContentSection").style.display = "none";
     } else {
         document.getElementById("emptyCartMessage").style.display = "none";
-        document.getElementById("orderForm").style.display = "block";
-        document.getElementById("qrPage").style.display = "none";
-        document.getElementById("modalTitle").innerText = `Order for ${productName}`;
+        document.getElementById("cartContentSection").style.display = "block";
+        
+        document.getElementById("cartProductName").innerText = productName;
+        document.getElementById("cartProductPrice").innerText = "Price: ₹" + totalPrice;
+        document.getElementById("cartProductImg").src = productImg;
     }
 }
 
-function filterProducts() {
-    let input = document.getElementById('productSearch').value.toLowerCase();
-    let cards = document.getElementsByClassName('card');
-    
-    for (let i = 0; i < cards.length; i++) {
-        let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-        if (title.includes(input)) {
-            cards[i].style.display = "";
-        } else {
-            cards[i].style.display = "none";
-        }
-    }
+function openCheckoutFromCart() {
+    closeCartModal();
+    document.getElementById("checkoutModal").style.display = "block";
+    document.getElementById("orderForm").style.display = "block";
+    document.getElementById("qrPage").style.display = "none";
 }
 
-function openCheckout(name,price){
-productName = name;
-productPrice = price;
-
-localStorage.setItem("lastOrderProduct", name);
-localStorage.setItem("lastOrderPrice", price);
-
-document.getElementById("checkoutModal").style.display = "block";
-document.getElementById("emptyCartMessage").style.display = "none";
-document.getElementById("orderForm").style.display = "block";
-document.getElementById("qrPage").style.display = "none";
-document.getElementById("modalTitle").innerText = "Place Order";
-
-document.getElementById("quantity").value = "1";
-document.getElementById("customQtyInput").style.display = "none";
-document.getElementById("customQtyInput").value = "";
+function closeCartModal() {
+    document.getElementById("cartModal").style.display = "none";
 }
 
-function closeModal(){
-document.getElementById("checkoutModal").style.display = "none";
+function closeCheckoutModal() {
+    document.getElementById("checkoutModal").style.display = "none";
 }
 
 function checkQuantity(val) {
-let customInput = document.getElementById("customQtyInput");
-if(val === "more") {
-customInput.style.display = "block";
-customInput.required = true;
-} else {
-customInput.style.display = "none";
-customInput.value = "";
-}
+    let customInput = document.getElementById("customQtyInput");
+    if(val === "more") {
+        customInput.style.display = "block";
+    } else {
+        customInput.style.display = "none";
+    }
 }
 
 function placeOrder(){
-let name = document.getElementById("custName").value;
-let phone = document.getElementById("custPhone").value;
-let address = document.getElementById("custAddress").value;
-let selectQty = document.getElementById("quantity").value;
-let payment = document.getElementById("paymentMethod").value;
-let qty = selectQty;
+    let name = document.getElementById("custName").value;
+    let phone = document.getElementById("custPhone").value;
+    let address = document.getElementById("custAddress").value;
+    let selectQty = document.getElementById("quantity").value;
+    let payment = document.getElementById("paymentMethod").value;
+    let qty = selectQty;
 
-if(selectQty === "more") {
-qty = document.getElementById("customQtyInput").value;
-if(qty == "" || qty <= 0) {
-alert("Please enter a valid quantity");
-return;
-}
-}
+    if(selectQty === "more") {
+        qty = document.getElementById("customQtyInput").value;
+        if(qty == "" || qty <= 0) { alert("Please enter quantity"); return; }
+    }
 
-if(name=="" || phone=="" || address==""){
-alert("Please fill all details");
-return;
-}
+    if(name=="" || phone=="" || address==""){
+        alert("Please fill all details");
+        return;
+    }
 
-totalPrice = productPrice * qty;
+    totalPrice = productPrice * qty;
 
-if(cart === 0) {
-    cart = 1;
-}
-localStorage.setItem("cartCount", cart);
-localStorage.setItem("lastOrderQty", qty);
-localStorage.setItem("lastOrderTotal", totalPrice);
+    // Save state to keep the cart filled when returning
+    cartCount = 1;
+    localStorage.setItem("cartProductName", productName);
+    localStorage.setItem("cartProductOriginalPrice", productPrice);
+    localStorage.setItem("cartProductPrice", totalPrice);
+    localStorage.setItem("cartProductImg", productImg);
+    updateCartIcon();
 
-document.getElementById("cartCount").innerText = cart;
+    whatsappMessage = `*NEW ORDER (${payment})*%0A%0A` +
+    `Product: ${productName}%0A` +
+    `Price: ₹${productPrice}%0A` +
+    `Quantity: ${qty}%0A` +
+    `Total: ₹${totalPrice}%0A%0A` +
+    `Name: ${name}%0A` +
+    `Phone: ${phone}%0A` +
+    `Address: ${address}`;
 
-whatsappMessage = `*NEW ORDER*%0A%0A` +
-`Product: ${productName}%0A` +
-`Price: ₹${productPrice}%0A` +
-`Quantity: ${qty}%0A` +
-`Total: ₹${totalPrice}%0A` +
-`Payment Method: ${payment}%0A%0A` +
-`Name: ${name}%0A` +
-`Phone: ${phone}%0A` +
-`Address: ${address}`;
-
-if(payment=="Online Payment"){
-document.getElementById("orderForm").style.display = "none";
-document.getElementById("qrPage").style.display = "block";
-}else{
-sendWhatsappOrder();
-}
+    if(payment == "Online Payment"){
+        document.getElementById("orderForm").style.display = "none";
+        document.getElementById("qrPage").style.display = "block";
+    } else {
+        closeCheckoutModal();
+        sendWhatsappOrder();
+    }
 }
 
-// Is function me window.open ki jagah location change kiya h taaki popup blocker block na kare
 function sendWhatsappOrder(){
-let targetUrl = `https://wa.me/919304976610?text=${whatsappMessage}`;
-window.location.href = targetUrl;
-} 
-
-window.onclick = function(event){
-let modal = document.getElementById("checkoutModal");
-if(event.target == modal){
-closeModal();
+    let targetUrl = `https://wa.me/919304976610?text=${whatsappMessage}`;
+    window.location.href = targetUrl;
 }
-}
-</script>
 
-</body>
-    </html>
-    
+function triggerCancellation() {
+    if(confirm("Kya aap sach me ye order cancel karna chahte hain?")) {
+        let cancelMessage = `*ORDER CANCELLATION REQUEST*%0A%0A` +
+        `Mera ye order cancel kar do:%0
