@@ -394,7 +394,7 @@ transition: 0.2s;
 color: white;
 }
 
-/* TOLI STYLE (AS PER SCREENSHOT 1000003915) */
+/* TOLI STYLE */
 .cart-title-wrapper {
 display: flex;
 align-items: center;
@@ -728,6 +728,7 @@ border-top: 1px solid #1c140a;
 <footer>© 2026 Vaneshwari Light Store</footer>
 
 <script>
+// SARE GLOBAL VARIABLES KO PEHLE DECLARE KIYA
 let productName = "";
 let productPrice = 0;
 let productImg = "";
@@ -735,6 +736,7 @@ let totalPrice = 0;
 let whatsappMessage = "";
 let cartCount = 0;
 
+// SCRIPT LOAD HOTI HI LOCALSTORAGE CHECK HOGA
 window.onload = function() {
     if(localStorage.getItem("cartProductName")) {
         productName = localStorage.getItem("cartProductName");
@@ -744,30 +746,13 @@ window.onload = function() {
         cartCount = 1;
         updateCartIcon();
     }
-}
+};
 
 function updateCartIcon() {
     document.getElementById("cartCount").innerText = cartCount;
 }
 
-// DOTS SCROLL LOGIC
-function updateDots(slider, index) {
-    let scrollLeft = slider.scrollLeft;
-    let width = slider.offsetWidth;
-    let page = Math.round(scrollLeft / width);
-    
-    let dotsContainer = document.getElementById("dots-" + index);
-    let dots = dotsContainer.getElementsByTagName("span");
-    
-    for (let i = 0; i < dots.length; i++) {
-        dots[i].classList.remove("active");
-    }
-    if(dots[page]) {
-        dots[page].classList.add("active");
-    }
-}
-
-// FIXED: Buy Now click handles parameters properly
+// CRITICAL FIX: openCheckoutDirectly ko sabse upar aur clear rakha taaki crash na ho
 function openCheckoutDirectly(name, price, imgUrl) {
     productName = name;
     productPrice = price;
@@ -838,7 +823,7 @@ function placeOrder(){
 
     totalPrice = productPrice * qty;
 
-    // Save state to keep the cart filled when returning
+    // Local Storage system update
     cartCount = 1;
     localStorage.setItem("cartProductName", productName);
     localStorage.setItem("cartProductOriginalPrice", productPrice);
@@ -872,4 +857,16 @@ function sendWhatsappOrder(){
 function triggerCancellation() {
     if(confirm("Kya aap sach me ye order cancel karna chahte hain?")) {
         let cancelMessage = `*ORDER CANCELLATION REQUEST*%0A%0A` +
-        `Mera ye order cancel kar do:%0
+        `Mera ye order cancel kar do:%0A` +
+        `Product: ${productName}%0A` +
+        `Total Price: ₹${localStorage.getItem("cartProductPrice")}`;
+
+        productName = "";
+        productPrice = 0;
+        totalPrice = 0;
+        productImg = "";
+        cartCount = 0;
+        localStorage.removeItem("cartProductName");
+        localStorage.removeItem("cartProductOriginalPrice");
+        localStorage.removeItem("cartProductPrice");
+    
