@@ -525,4 +525,391 @@
                     <img id="dynamicInvoiceQrImage" src="https://i.ibb.co/ZrFL1cv/IMG-20260524-WA0000.jpg" alt="Payment Gateway API Terminal">
                 </div>
                 
-                <div class="payment-screenshot-alert"
+                <div class="payment-screenshot-alert">
+                    <strong style="color:var(--danger-red);"><i class="fas fa-exclamation-triangle"></i> Action Required:</strong><br>
+                    After completing the digital transaction payment, take a screenshot of your success receipt page and text it on WhatsApp to (+91 9304976610).
+                </div>
+
+                <button class="action-button" id="whatsappNotifyBtn" style="display: none;" onclick="transmitPayloadToWhatsApp('ONLINE_UPI')"><i class="fab fa-whatsapp"></i> Payment Completed (Notify Desk)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="userAddressConfigurationModal">
+        <div class="popup-box">
+            <span class="dismiss-cross" onclick="hidePopupModal('userAddressConfigurationModal')">&times;</span>
+            <h3 style="color:var(--accent-yellow);"><i class="fas fa-home"></i> Delivery Address</h3>
+            <input type="text" id="inputProfileName" placeholder="Full Name">
+            <input type="number" id="inputProfileMobile" placeholder="Contact Mobile Number">
+            <textarea id="inputProfileStreetAddress" placeholder="Complete Street Address with Landmark references"></textarea>
+            <button class="action-button" onclick="commitProfileToLocalStorage()">Save Delivery Details</button>
+        </div>
+    </div>
+
+    <div class="help-desk-banner" id="support-anchor">
+        <h2>Customer Support Desk</h2>
+        <div class="help-grid">
+            <a href="https://wa.me/919304976610" class="help-card-link" target="_blank"><i class="fab fa-whatsapp" style="color:#2ecc71; font-size:22px;"></i> Live Chat on WhatsApp</a>
+            <a href="tel:+919304976610" class="help-card-link"><i class="fas fa-phone-alt" style="color:var(--accent-yellow);"></i> Call Store Hotline</a>
+        </div>
+    </div>
+
+    <footer>© 2026 Vaneshwari Light Store. All Rights Reserved.</footer>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getDatabase, ref, push, set, onValue, remove } from "firebase/database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDlSPWhoYHif1L_imSoRhiXXXXX", 
+            authDomain: "vaneshwari-light.firebaseapp.com",
+            databaseURL: "https://vaneshwari-light-default-rtdb.firebaseio.com/",
+            projectId: "vaneshwari-light",
+            storageBucket: "vaneshwari-light.firebasestorage.app",
+            messagingSenderId: "318448852486",
+            appId: "1:318448852486:web:535a430b4XXXXXXXX" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const productsDbRef = ref(database, 'products');
+
+        window.sessionCartItems = [];
+        window.isAdminSessionAuthenticated = false;
+        const upiMerchantId = "9304976610@okaxis"; 
+        window.cachedProductsPayload = {}; 
+
+        onValue(productsDbRef, (dataSnapshot) => {
+            const containerGrid = document.getElementById("dynamicProductsRenderGrid");
+            document.getElementById("loaderStatus").style.display = "none";
+            containerGrid.innerHTML = "";
+
+            if(dataSnapshot.exists()) {
+                const productCollection = dataSnapshot.val();
+                window.cachedProductsPayload = productCollection; 
+
+                Object.keys(productCollection).forEach((dbKey) => {
+                    const itemData = productCollection[dbKey];
+                    const photoString = itemData.img || "https://via.placeholder.com/350";
+                    const photoCollectionArray = photoString.split(","); 
+                    
+                    const starTotal = parseInt(itemData.stars || 5);
+                    let starIconsHtml = "";
+                    for(let i=0; i<starTotal; i++) { starIconsHtml += '<i class="fas fa-star"></i> '; }
+                    
+                    let imageryHtml = ""; let paginatedDotsHtml = "";
+                    photoCollectionArray.forEach((url, loopIndex) => {
+                        imageryHtml += `<img src="${url.trim()}" alt="${itemData.name}">`;
+                        paginatedDotsHtml += `<div class="indicator-dot ${loopIndex === 0 ? 'active' : ''}" id="slideDot_${dbKey}_${loopIndex}"></div>`;
+                    });
+
+                    let navigationArrowsHtml = ""; let indicatorWrapperHtml = "";
+                    if(photoCollectionArray.length > 1) {
+                        navigationArrowsHtml = `
+                            <div class="reel-nav-arrows">
+                                <button class="arrow-btn" onclick="window.triggerReelNavigation('${dbKey}', -1)"><i class="fas fa-chevron-left"></i></button>
+                                <button class="arrow-btn" onclick="window.triggerReelNavigation('${dbKey}', 1)"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        `;
+                        indicatorWrapperHtml = `<div class="reel-pagination-dots">${paginatedDotsHtml}</div>`;
+                    }
+
+                    const managementActionOption = window.isAdminSessionAuthenticated ? 
+                        `<br><button class="remove-item-btn" onclick="window.purgeItemFromServer('${dbKey}')"><i class="fas fa-trash-alt"></i> Remove Stock</button>` : '';
+
+                    containerGrid.innerHTML += `
+                        <div class="product-card">
+                            <div class="media-slider-box">
+                                <div class="inner-reel" id="carouselReel_${dbKey}" data-total="${photoCollectionArray.length}" data-current="0" onscroll="window.calculateReelScrollPosition('${dbKey}')">
+                                    ${imageryHtml}
+                                </div>
+                                ${navigationArrowsHtml}
+                                ${indicatorWrapperHtml}
+                            </div>
+                            <h3>${itemData.name}</h3>
+                            <div class="rating-stars">${starIconsHtml}</div>
+                            
+                            <button class="view-specs-link" onclick="window.displayProductSpecifications('${dbKey}')"><i class="fas fa-file-alt"></i> View Details</button>
+                            
+                            <div class="currency-tag">₹${itemData.price}</div>
+                            
+                            <div class="quantity-controller">
+                                <button class="math-btn" onclick="window.modifyCardQuantity('${dbKey}', -1)">-</button>
+                                <input type="number" class="num-field" id="quantityCountValue_${dbKey}" value="1" min="1" onchange="window.verifyQuantityThreshold('${dbKey}')">
+                                <button class="math-btn" onclick="window.modifyCardQuantity('${dbKey}', 1)">+</button>
+                            </div>
+
+                            <button class="action-button" style="background:#221d18; color: #fff; border: 1px solid #3b3026;" onclick="window.commitItemToShoppingBasket('${dbKey}', '${itemData.name}', ${itemData.price})"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                            <button class="action-button" onclick="window.triggerInstantPurchase('${dbKey}', '${itemData.name}', ${itemData.price})">Buy Now</button>
+                            ${managementActionOption}
+                        </div>
+                    `;
+                });
+            } else {
+                containerGrid.innerHTML = "<p style='color:#777; text-align:center; width:100%; padding:20px;'>The catalog is presently unpopulated.</p>";
+            }
+        });
+
+        window.displayProductSpecifications = function(dbKey) {
+            const product = window.cachedProductsPayload[dbKey];
+            if(product) {
+                document.getElementById("specsHeading").innerText = product.name;
+                document.getElementById("specsParagraph").innerText = product.desc || "No custom parameter specifications log configured for this item.";
+                document.getElementById("specsPopupStructure").style.display = "block";
+            }
+        };
+
+        window.modifyCardQuantity = function(dbKey, operatorChange) {
+            const element = document.getElementById(`quantityCountValue_${dbKey}`);
+            let parsedVal = parseInt(element.value) || 1;
+            parsedVal += operatorChange;
+            if(parsedVal < 1) parsedVal = 1;
+            element.value = parsedVal;
+        };
+
+        window.verifyQuantityThreshold = function(dbKey) {
+            const inputField = document.getElementById(`quantityCountValue_${dbKey}`);
+            let parsedVal = parseInt(inputField.value);
+            if(isNaN(parsedVal) || parsedVal < 1) { inputField.value = 1; }
+        };
+
+        window.commitItemToShoppingBasket = function(dbKey, name, price) {
+            const qty = parseInt(document.getElementById(`quantityCountValue_${dbKey}`).value) || 1;
+            window.appendItemToBasketState(name, price, qty);
+            document.getElementById(`quantityCountValue_${dbKey}`).value = "1"; 
+            alert(`Item added successfully to your selection basket!`);
+        };
+
+        window.triggerInstantPurchase = function(dbKey, name, price) {
+            const qty = parseInt(document.getElementById(`quantityCountValue_${dbKey}`).value) || 1;
+            window.sessionCartItems = [{name, price, qty}];
+            document.getElementById("cartCount").innerText = qty;
+            document.getElementById(`quantityCountValue_${dbKey}`).value = "1"; 
+            launchCheckoutSequence();
+        };
+
+        document.getElementById("commitProductToDbBtn").onclick = function() {
+            const name = document.getElementById("formProductName").value.trim();
+            const price = parseInt(document.getElementById("formProductPrice").value);
+            const imgUrlsString = document.getElementById("formProductPhotos").value.trim();
+            const starsRatingValue = document.getElementById("formProductRating").value;
+            const descriptionPayload = document.getElementById("formProductSpecifications").value.trim();
+
+            if(!name || !price) { 
+                alert("Primary validation failed! Product Label name and Pricing figures are strictly required."); 
+                return; 
+            }
+
+            const targetPushLocation = push(productsDbRef);
+            set(targetPushLocation, { 
+                name: name, 
+                price: price, 
+                img: imgUrlsString || "https://via.placeholder.com/350", 
+                stars: starsRatingValue,
+                desc: descriptionPayload || "Premium Commercial Electric Component Specification Profile" 
+            })
+            .then(() => { 
+                alert("Database write completed successfully!"); 
+                document.getElementById("formProductName").value = "";
+                document.getElementById("formProductPrice").value = "";
+                document.getElementById("formProductPhotos").value = "";
+                document.getElementById("formProductSpecifications").value = "";
+                hidePopupModal('adminControlCenterModal'); 
+            })
+            .catch((writeError) => { alert("Database rejection encounter: " + writeError.message); });
+        };
+
+        window.triggerReelNavigation = function(dbKey, layoutVector) {
+            const scrollReel = document.getElementById(`carouselReel_${dbKey}`);
+            const totalElements = parseInt(scrollReel.getAttribute('data-total'));
+            let activePointer = parseInt(scrollReel.getAttribute('data-current'));
+            activePointer += layoutVector;
+            if(activePointer < 0) activePointer = 0;
+            if(activePointer >= totalElements) activePointer = totalElements - 1;
+            scrollReel.setAttribute('data-current', activePointer);
+            scrollReel.scrollLeft = activePointer * scrollReel.offsetWidth;
+            window.realignPaginationIndicators(dbKey, activePointer, totalElements);
+        };
+
+        window.calculateReelScrollPosition = function(dbKey) {
+            const scrollReel = document.getElementById(`carouselReel_${dbKey}`);
+            const totalElements = parseInt(scrollReel.getAttribute('data-total'));
+            const calculatedPointerIndex = Math.round(scrollReel.scrollLeft / scrollReel.offsetWidth);
+            scrollReel.setAttribute('data-current', calculatedPointerIndex);
+            window.realignPaginationIndicators(dbKey, calculatedPointerIndex, totalElements);
+        };
+
+        window.realignPaginationIndicators = function(dbKey, currentIndexPosition, totalBoundSize) {
+            for(let loopIdx=0; loopIdx<totalBoundSize; loopIdx++) {
+                const searchDotDom = document.getElementById(`slideDot_${dbKey}_${loopIdx}`);
+                if(searchDotDom) {
+                    if(loopIdx === currentIndexPosition) searchDotDom.classList.add('active');
+                    else searchDotDom.classList.remove('active');
+                }
+            }
+        };
+
+        window.purgeItemFromServer = function(uniqueIdKey) {
+            if(confirm("Confirm action request to permanently purge this entry from active listings?")) { 
+                remove(ref(database, 'products/' + uniqueIdKey)); 
+            }
+        };
+        window.upiMerchantId = upiMerchantId;
+    </script>
+
+    <script>
+        function displayAdminLoginPopup() { 
+            document.getElementById("adminControlCenterModal").style.display = "block"; 
+            if(window.isAdminSessionAuthenticated) {
+                document.getElementById("passwordVerificationBlock").style.display = "none";
+                document.getElementById("secureProductManagementPanel").style.display = "block";
+            }
+        }
+        function displayAddressSetupPopup() {
+            document.getElementById("inputProfileName").value = localStorage.getItem("shippingProfileName") || "";
+            document.getElementById("inputProfileMobile").value = localStorage.getItem("shippingProfileMobile") || "";
+            document.getElementById("inputProfileStreetAddress").value = localStorage.getItem("shippingProfileAddressData") || "";
+            document.getElementById("userAddressConfigurationModal").style.display = "block";
+        }
+        function hidePopupModal(modalDomId) { document.getElementById(modalDomId).style.display = "none"; }
+
+        function verifyAdminPasskey() {
+            var challengeString = document.getElementById("adminPassphraseInput").value;
+            // Password updated to Rani@1084
+            if(challengeString === "Rani@1084") {
+                window.isAdminSessionAuthenticated = true;
+                document.getElementById("passwordVerificationBlock").style.display = "none";
+                document.getElementById("secureProductManagementPanel").style.display = "block";
+                alert("Access level verified! Administrative workspace is now unlocked.");
+            } else { alert("Verification credentials provided are invalid."); }
+        }
+
+        function commitProfileToLocalStorage() {
+            var validatedName = document.getElementById("inputProfileName").value.trim();
+            var validatedMobile = document.getElementById("inputProfileMobile").value.trim();
+            var validatedAddress = document.getElementById("inputProfileStreetAddress").value.trim();
+
+            if(!validatedName || !validatedMobile || !validatedAddress) {
+                alert("Operation halted. All details are required for logistics pipelines.");
+                return; 
+            }
+
+            localStorage.setItem("shippingProfileName", validatedName);
+            localStorage.setItem("shippingProfileMobile", validatedMobile);
+            localStorage.setItem("shippingProfileAddressData", validatedAddress);
+            
+            alert("Delivery Profile records updated successfully."); 
+            hidePopupModal('userAddressConfigurationModal');
+            if(document.getElementById("checkoutProcessModal").style.display === "block") { launchCheckoutSequence(); }
+        }
+
+        function appendItemToBasketState(name, price, qty) {
+            var collisionDetection = false;
+            window.sessionCartItems.forEach(cartRowObject => {
+                if(cartRowObject.name === name) {
+                    cartRowObject.qty += qty;
+                    collisionDetection = true;
+                }
+            });
+            if(!collisionDetection) { window.sessionCartItems.push({name, price, qty}); }
+            recalculateBasketBadgeIndicatorCount();
+        }
+
+        function recalculateBasketBadgeIndicatorCount() {
+            var computedCounter = 0;
+            window.sessionCartItems.forEach(rowItem => computedCounter += rowItem.qty);
+            document.getElementById("cartCount").innerText = computedCounter;
+        }
+
+        function displayCartPopup() {
+            var itemsListWrapper = document.getElementById("basketItemsContainer");
+            var displayTotalVal = document.getElementById("basketAccumulatedTotal");
+            itemsListWrapper.innerHTML = ""; var calculatedSubTotalValue = 0;
+            if(window.sessionCartItems.length === 0) {
+                itemsListWrapper.innerHTML = "<p style='color:#555; text-align:center; padding: 10px;'>Your selection basket is empty</p>";
+                displayTotalVal.innerText = "Total: ₹0";
+            } else {
+                window.sessionCartItems.forEach((activeRow) => {
+                    var calculatedCumulativeRowCost = activeRow.price * activeRow.qty;
+                    calculatedSubTotalValue += calculatedCumulativeRowCost;
+                    itemsListWrapper.innerHTML += `<div class="basket-row"><span>${activeRow.name} <strong>(x${activeRow.qty})</strong></span><strong>₹${calculatedCumulativeRowCost}</strong></div>`;
+                });
+                displayTotalVal.innerText = "Total: ₹" + calculatedSubTotalValue;
+            }
+            document.getElementById("shoppingCartDetailsModal").style.display = "block";
+        }
+
+        function launchCheckoutSequence() {
+            if(window.sessionCartItems.length === 0) return;
+            
+            var localRecordName = localStorage.getItem("shippingProfileName");
+            var localRecordAddress = localStorage.getItem("shippingProfileAddressData");
+            var localRecordPhone = localStorage.getItem("shippingProfileMobile");
+
+            if(!localRecordName || !localRecordAddress || !localRecordPhone) {
+                hidePopupModal('shoppingCartDetailsModal');
+                alert("Carrier dispatch details must be updated before processing checkout operations.");
+                displayAddressSetupPopup(); 
+                return; 
+            }
+
+            hidePopupModal('shoppingCartDetailsModal');
+            var systemDisplayView = document.getElementById("serializedAddressView");
+            systemDisplayView.innerHTML = `<strong>${localRecordName}</strong><br>${localRecordAddress}<br>Phone: ${localRecordPhone}`;
+            
+            document.getElementById("standardCheckoutForm").style.display = "block";
+            document.getElementById("instantPaymentQrWorkspace").style.display = "none";
+            document.getElementById("checkoutProcessModal").style.display = "block";
+        }
+
+        function initializeTransaction() {
+            var chosenGatewayRoute = document.querySelector('input[name="paymentGateway"]:checked').value;
+            var accumulatedTotalInvoiceCost = 0; window.sessionCartItems.forEach(item => accumulatedTotalInvoiceCost += (item.price * item.qty));
+            
+            if(chosenGatewayRoute === "ONLINE_UPI") {
+                var formatUpiStringPayload = `upi://pay?pa=${window.upiMerchantId}&pn=VaneshwariLight&am=${accumulatedTotalInvoiceCost}&cu=INR&tn=StorePurchaseOrder`;
+                
+                var deepLinkElement = document.getElementById("directUpiDeepLink");
+                deepLinkElement.href = formatUpiStringPayload;
+                
+                if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                    deepLinkElement.style.display = "block";
+                } else {
+                    deepLinkElement.style.display = "none";
+                }
+
+                // Show the yellow button dynamically when payment terminal loads
+                document.getElementById("whatsappNotifyBtn").style.display = "block";
+
+                document.getElementById("standardCheckoutForm").style.display = "none";
+                document.getElementById("instantPaymentQrWorkspace").style.display = "block";
+            } else { 
+                transmitPayloadToWhatsApp('OFFLINE_COD'); 
+            }
+        }
+
+        function transmitPayloadToWhatsApp(paymentLabelType) {
+            var grossSubTotalValue = 0; var receiptPayloadText = "";
+            window.sessionCartItems.forEach((basketItem, absoluteIndex) => { 
+                var lineCost = basketItem.price * basketItem.qty;
+                grossSubTotalValue += lineCost; 
+                receiptPayloadText += `${absoluteIndex+1}. ${basketItem.name} (Qty: ${basketItem.qty}) - ₹${lineCost}%0A`; 
+            });
+            var finalizedMessagePayload = `*NEW ORDER SYSTEM RECORD*%0AMode of Remittance: ${paymentLabelType}%0A%0A*Items Selected:*%0A${receiptPayloadText}%0A*Gross Total Invoice Cost:* ₹${grossSubTotalValue}%0A%0A*Logistics Destination Data:*%0ARecipient: ${localStorage.getItem("shippingProfileName")}%0ADelivery Site Address: ${localStorage.getItem("shippingProfileAddressData")}%0AContact System Line: ${localStorage.getItem("shippingProfileMobile")}`;
+            window.sessionCartItems = []; 
+            document.getElementById("cartCount").innerText = "0";
+            hidePopupModal('checkoutProcessModal');
+            window.location.href = `https://wa.me/919304976610?text=${finalizedMessagePayload}`;
+        }
+
+        function executeLiveSearch() {
+            var standardQueryString = document.getElementById('liveSearchQuery').value.toLowerCase();
+            var domesticDomCardsList = document.getElementsByClassName('product-card');
+            for (var targetIdx = 0; targetIdx < domesticDomCardsList.length; targetIdx++) {
+                var searchTargetHeader = domesticDomCardsList[targetIdx].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                domesticDomCardsList[targetIdx].style.display = searchTargetHeader.includes(standardQueryString) ? "" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
